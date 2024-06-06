@@ -6,6 +6,6 @@ defmodule MultitapWeb.PageControllerTest do
   test "GET /", %{conn: conn} do
     conn
     |> visit(~p"/")
-    |> assert_has("p", "Peace of mind from prototype to production")
+    |> assert_has("p", text: "Peace of mind from prototype to production")
   end
 end
