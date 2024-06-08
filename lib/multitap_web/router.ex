@@ -18,6 +18,9 @@ defmodule MultitapWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    post "/counter", PageController, :create
+
+    live "/counter", CounterLive
   end
 
   # Other scopes may use custom stacks.
