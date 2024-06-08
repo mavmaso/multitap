@@ -2,9 +2,13 @@ defmodule MultitapWeb.CounterTest do
   use MultitapWeb.ConnCase, async: true
 
   import PhoenixTest
+  import Multitap.AccountsFixtures
 
   test "create my own counter", %{conn: conn} do
+    user = user_fixture()
+
     conn
+    |> login(user)
     |> visit(~p"/")
     |> click_button("new counter")
     |> assert_has("h2", text: "value: 100")
