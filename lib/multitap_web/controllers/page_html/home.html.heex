@@ -1,5 +1,10 @@
 <p>Peace of mind from prototype to production</p>
 
 <.form for={%{}} action={"/counter"}>
-  <.button>new counter</.button> 
+  <.button>new counter</.button>
+</.form>
+
+<.form :let={f} for={%{}} action={"/counter"} method="get">
+  <.input type="number" label="counter number" field={f[:counter_number]} />
+  <.button>enter</.button>
 </.form>
