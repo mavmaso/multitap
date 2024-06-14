@@ -10,9 +10,10 @@ defmodule Multitap.Application do
     children = [
       MultitapWeb.Telemetry,
       Multitap.Repo,
-      {Ecto.Migrator,
-        repos: Application.fetch_env!(:multitap, :ecto_repos),
-        skip: skip_migrations?()},
+      {
+        Ecto.Migrator,
+        repos: Application.fetch_env!(:multitap, :ecto_repos), skip: skip_migrations?()
+      },
       {DNSCluster, query: Application.get_env(:multitap, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Multitap.PubSub},
       # Start the Finch HTTP client for sending emails

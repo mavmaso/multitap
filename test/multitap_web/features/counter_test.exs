@@ -40,6 +40,9 @@ defmodule MultitapWeb.CounterTest do
     |> fill_in("counter number", with: "#{user.id}")
     |> click_button("enter")
     |> assert_has("h2", text: "value: 101")
+
+    build_conn()
+    |> visit(~p"/counter?counter_number=#{user.id}")
     |> click_button("+")
     |> assert_has("h2", text: "value: 102")
 

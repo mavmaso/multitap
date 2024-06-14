@@ -7,6 +7,8 @@ defmodule MultitapWeb.CounterLive do
     name = "counter_#{params["counter_number"]}"
 
     if Counter.whereis(name) == :ok do
+      if connected?(socket), do: MultitapWeb.Endpoint.subscribe(name)
+
       socket =
         socket
         |> assign(:name, name)
@@ -28,11 +30,21 @@ defmodule MultitapWeb.CounterLive do
 
   def handle_event("inc", _params, socket) do
     Counter.update(socket.assigns.name, 1)
-    {:noreply, update(socket, :value, fn _ -> Counter.get(socket.assigns.name) end)}
+    value = Counter.get(socket.assigns.name)
+    MultitapWeb.Endpoint.broadcast(socket.assigns.name, "update", value)
+
+    {:noreply, socket}
   end
 
   def handle_event("dec", _params, socket) do
     Counter.update(socket.assigns.name, -1)
-    {:noreply, update(socket, :value, fn _ -> Counter.get(socket.assigns.name) end)}
+    value = Counter.get(socket.assigns.name)
+    MultitapWeb.Endpoint.broadcast(socket.assigns.name, "update", value)
+
+    {:noreply, socket}
+  end
+
+  def handle_info(%{event: "update", payload: value}, socket) do
+    {:noreply, update(socket, :value, fn _ -> value end)}
   end
 end
