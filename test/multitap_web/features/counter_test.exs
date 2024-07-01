@@ -17,11 +17,6 @@ defmodule MultitapWeb.CounterTest do
     |> assert_has("h2", text: "value: 102")
     |> click_button("-")
     |> assert_has("h2", text: "value: 101")
-
-    # build_conn()
-    # |> visit(~p"/")
-    # |> click_button("new counter")
-    # |> assert_has("h2", text: "value: 100")
   end
 
   test "create another counter", %{conn: conn} do
@@ -48,5 +43,11 @@ defmodule MultitapWeb.CounterTest do
 
     conn
     |> assert_has("h2", text: "value: 102")
+  end
+
+  test "can't create counter without login", %{conn: conn} do
+    conn
+    |> visit(~p"/")
+    |> refute_has("button", text: "new counter")
   end
 end

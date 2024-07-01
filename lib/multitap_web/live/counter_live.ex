@@ -2,6 +2,7 @@ defmodule MultitapWeb.CounterLive do
   use MultitapWeb, :live_view
 
   alias Multitap.Counter
+  alias MultitapWeb.Endpoint
 
   def mount(params, _session, socket) do
     name = "counter_#{params["counter_number"]}"
@@ -31,7 +32,7 @@ defmodule MultitapWeb.CounterLive do
   def handle_event("inc", _params, socket) do
     Counter.update(socket.assigns.name, 1)
     value = Counter.get(socket.assigns.name)
-    MultitapWeb.Endpoint.broadcast(socket.assigns.name, "update", value)
+    Endpoint.broadcast(socket.assigns.name, "update", value)
 
     {:noreply, socket}
   end
@@ -39,7 +40,7 @@ defmodule MultitapWeb.CounterLive do
   def handle_event("dec", _params, socket) do
     Counter.update(socket.assigns.name, -1)
     value = Counter.get(socket.assigns.name)
-    MultitapWeb.Endpoint.broadcast(socket.assigns.name, "update", value)
+    Endpoint.broadcast(socket.assigns.name, "update", value)
 
     {:noreply, socket}
   end
